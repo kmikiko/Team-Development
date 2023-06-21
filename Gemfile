@@ -63,6 +63,7 @@ group :development do
   gem 'rack-mini-profiler', require: false
   gem 'web-console', '>= 3.3.0'
   gem "rails-erd"
+  gem 'rexml'
 end
 
 group :test do
