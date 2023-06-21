@@ -15,8 +15,6 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
-
   def create
     @team = Team.new(team_params)
     @team.owner = current_user
@@ -29,12 +27,18 @@ class TeamsController < ApplicationController
     end
   end
 
+  def edit; end
+
   def update
-    if @team.update(team_params)
-      redirect_to @team, notice: I18n.t('views.messages.update_team')
+    if current_user.id == @team.owner.id
+      if @team.update(team_params)
+        redirect_to @team, notice: I18n.t('views.messages.update_team')
+      else
+        flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
+        render :edit
+      end
     else
-      flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
-      render :edit
+      redirect_to @team, notice: I18n.t('views.messages.failed_to_edit_team')
     end
   end
 

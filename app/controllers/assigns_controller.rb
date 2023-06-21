@@ -15,13 +15,16 @@ class AssignsController < ApplicationController
   end
 
   def destroy
+    team = find_team(params[:team_id])
     assign = Assign.find(params[:id])
-    destroy_message = assign_destroy(assign, assign.user)
-
-    redirect_to team_url(params[:team_id]), notice: destroy_message
+    if current_user.id == team.owner.id || current_user.id == assign.user_id
+      destroy_message = assign_destroy(assign, assign.user)
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    end
   end
 
   private
+
   def assign_params
     params[:email]
   end
@@ -41,9 +44,9 @@ class AssignsController < ApplicationController
 
   def email_exist?
     team = find_team(params[:team_id])
-    if team.members.exists?(email: params[:email])
-      redirect_to team_url(team), notice: I18n.t('views.messages.email_already_exists')
-    end
+    return unless team.members.exists?(email: params[:email])
+
+    redirect_to team_url(team), notice: I18n.t('views.messages.email_already_exists')
   end
 
   def email_reliable?(address)
@@ -52,9 +55,9 @@ class AssignsController < ApplicationController
 
   def user_exist?
     team = find_team(params[:team_id])
-    unless User.exists?(email: params[:email])
-      redirect_to team_url(team), notice: I18n.t('views.messages.does_not_exist_email')
-    end
+    return if User.exists?(email: params[:email])
+
+    redirect_to team_url(team), notice: I18n.t('views.messages.does_not_exist_email')
   end
 
   def set_next_team(assign, assigned_user)
@@ -62,7 +65,8 @@ class AssignsController < ApplicationController
     change_keep_team(assigned_user, another_team) if assigned_user.keep_team_id == assign.team_id
   end
 
-  def find_team(team_id)
+  def find_team(_team_id)
     Team.friendly.find(params[:team_id])
   end
+
 end
