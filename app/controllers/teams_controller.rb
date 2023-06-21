@@ -56,7 +56,6 @@ class TeamsController < ApplicationController
       OwnerChangeMailer.owner_change_mail(@team,@team.owner.email).deliver
       redirect_to team_path, notice: 'チームオーナー権限が移動しました!'
     end
-    
   end
 
   private
