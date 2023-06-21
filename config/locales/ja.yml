@@ -232,6 +232,7 @@ ja:
       post_comment: 'コメント投稿'
       initial_assign: 'あなたのアドレスが、DIVEINTOPOSTのチームにアサインされました！'
       initial_password: '初期パスワード:'
+      change_owner: 'あなたがチームのオーナーになりました'
       author: '投稿者'
       delete_comment: 'コメントを削除する'
       edit_comment: 'コメントを編集する'
@@ -260,6 +261,7 @@ ja:
       delete: '削除'
       create: '作成'
       invite: '招待'
+      change_owner: '権限移動'
     top:
       line1: 'このアプリケーションは、チームごと、議題ごとに別れて'
       line2: '特定のイシュー（議題）をメンバーで見やすく共有するためのアプリケーションです'

@@ -1,10 +1,9 @@
-class AssignMailer < ApplicationMailer
+class OwnerChangeMailer < ApplicationMailer
   default from: 'from@example.com'
 
-  def assign_mail(email, password)
+  def owner_change_mail(team,email)
+    @team = team
     @email = email
-    @password = password
     mail to: @email, subject: I18n.t('views.messages.complete_registration')
-  end 
+  end
 end
-

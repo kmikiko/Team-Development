@@ -441,6 +441,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-erd
   redcarpet (~> 3.5.1)
+  rexml
   rspec-parameterized
   rspec-rails
   rspec-retry

@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy assign_owner]
 
   def index
     @teams = Team.all
@@ -49,6 +49,14 @@ class TeamsController < ApplicationController
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  def assign_owner
+    if @team.update(owner_id: params[:owner_id])
+      OwnerChangeMailer.owner_change_mail(@team,@team.owner.email).deliver
+      redirect_to team_path, notice: 'チームオーナー権限が移動しました!'
+    end
+    
   end
 
   private
